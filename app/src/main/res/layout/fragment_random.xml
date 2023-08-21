@@ -12,11 +12,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:text="@string/hello_blank_fragment" />
+
     <TextView
+        style="@style/mStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/mStyle"
-        android:text="@string/tap_to_get_next_joke"
-        android:layout_gravity="bottom|end"/>
+        android:layout_gravity="bottom|end"
+        android:text="@string/tap_to_get_next_joke" />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
 </FrameLayout>
