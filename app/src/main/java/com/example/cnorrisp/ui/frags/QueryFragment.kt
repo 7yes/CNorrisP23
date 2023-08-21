@@ -1,19 +1,28 @@
 package com.example.cnorrisp.ui.frags
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.cnorrisp.R
+import androidx.fragment.app.Fragment
+import com.example.cnorrisp.databinding.FragmentQueryBinding
 
 class QueryFragment : Fragment() {
+    private var _binding: FragmentQueryBinding? = null
+    private val binding get() = _binding!!
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding = FragmentQueryBinding.inflate(layoutInflater, container, false)
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_query, container, false)
+        return binding.root
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
