@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:title="@string/random"
+        android:id="@+id/nav_random"
         android:icon="@drawable/ic_random"
-        android:id="@+id/nav_random"/>
+        android:title="@string/random" />
     <item
-        android:title="@string/custom"
-        android:icon="@drawable/ic_random"
-        android:id="@+id/nav_custom"/>
+        android:id="@+id/nav_custom"
+        android:icon="@drawable/ic_custom"
+        android:title="@string/custom" />
     <item
-        android:title="@string/query"
+        android:id="@+id/nav_query"
         android:icon="@drawable/ic_random"
-        android:id="@+id/nav_query"/>
+        android:title="@string/query" />
+    <item
+        android:id="@+id/nav_exit"
+        android:icon="@drawable/ic_exit"
+        android:title="@string/exit" />
 </menu>

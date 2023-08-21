@@ -7,4 +7,5 @@
     <string name="random">Random</string>
     <string name="custom">Custom</string>
     <string name="query">Query</string>
+    <string name="exit">Exit</string>
 </resources>
