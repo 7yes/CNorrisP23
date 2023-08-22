@@ -13,7 +13,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ChuckVM @Inject constructor(private val getRandomUseCase: GetRandomUseCase) : ViewModel() {
+class ChuckVM @Inject constructor(
+    private val getRandomUseCase: GetRandomUseCase,
+    private val getCustomUseCase: GetRandomUseCase
+) : ViewModel() {
 
     // Random
     private var _lastRandom = MutableLiveData<String>()
@@ -21,6 +24,13 @@ class ChuckVM @Inject constructor(private val getRandomUseCase: GetRandomUseCase
 
     private var _stateRandom = MutableLiveData<UIState>()
     val stateRandom: LiveData<UIState> = _stateRandom
+
+    //Custom
+    private var _lastCustom = MutableLiveData<String>()
+    val lastCustom: LiveData<String> = _lastCustom
+
+    private var _stateCustom = MutableLiveData<UIState>()
+    val stateCustom: LiveData<UIState> = _stateCustom
 
     @SuppressWarnings("TooGenericExceptionCaught")
     fun getRandom() {
@@ -36,6 +46,25 @@ class ChuckVM @Inject constructor(private val getRandomUseCase: GetRandomUseCase
                 }
             } catch (e: Exception) {
                 _stateRandom.postValue(UIState.Error(e))
+            }
+        }
+    }
+    @SuppressWarnings("TooGenericExceptionCaught")
+    fun getCustom(name: String) {
+        _stateCustom.postValue(UIState.Loading)
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val joke = getCustomUseCase.getCustom(name)
+                if (joke.isNotEmpty()) {
+                    _stateCustom.postValue(UIState.Success)
+                    _lastCustom.postValue(joke)
+
+                } else {
+                    Log.d("TAG", "getSimpleRandom: call successful but no data ")
+
+                }
+            } catch (e: Exception) {
+                _stateCustom.postValue(UIState.Error(e))
             }
         }
     }
