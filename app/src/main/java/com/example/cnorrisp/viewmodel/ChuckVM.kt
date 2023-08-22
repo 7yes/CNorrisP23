@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.cnorrisp.domain.GetCustomUseCase
+import com.example.cnorrisp.domain.GetQueryUseCase
 import com.example.cnorrisp.domain.GetRandomUseCase
 import com.example.cnorrisp.ui.states.UIState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ChuckVM @Inject constructor(
     private val getRandomUseCase: GetRandomUseCase,
-    private val getCustomUseCase: GetRandomUseCase
+    private val getCustomUseCase: GetCustomUseCase,
+    private val getQueryUseCase: GetQueryUseCase
 ) : ViewModel() {
 
     // Random
@@ -31,6 +34,13 @@ class ChuckVM @Inject constructor(
 
     private var _stateCustom = MutableLiveData<UIState>()
     val stateCustom: LiveData<UIState> = _stateCustom
+
+    //Query
+    private var _lastList = MutableLiveData<List<String>>()
+    val lastList: LiveData<List<String>> = _lastList
+
+    private var _stateList = MutableLiveData<UIState>()
+    val stateList: LiveData<UIState> = _stateList
 
     @SuppressWarnings("TooGenericExceptionCaught")
     fun getRandom() {
@@ -49,6 +59,7 @@ class ChuckVM @Inject constructor(
             }
         }
     }
+
     @SuppressWarnings("TooGenericExceptionCaught")
     fun getCustom(name: String) {
         _stateCustom.postValue(UIState.Loading)
@@ -61,10 +72,29 @@ class ChuckVM @Inject constructor(
 
                 } else {
                     Log.d("TAG", "getSimpleRandom: call successful but no data ")
-
                 }
             } catch (e: Exception) {
                 _stateCustom.postValue(UIState.Error(e))
+            }
+        }
+    }
+
+    @SuppressWarnings("TooGenericExceptionCaught")
+    fun getQuery(query: String) {
+        _stateList.postValue(UIState.Loading)
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val jokes = getQueryUseCase.getList(query)
+                if (jokes.isNotEmpty()) {
+                    _stateList.postValue(UIState.Success)
+                    _lastList.postValue(jokes)
+                    Log.d("TAG", "getQuery: jokes $jokes ")
+
+                } else {
+                    Log.d("TAG", "getSimpleRandom: call successful but no data ")
+                }
+            } catch (e: Exception) {
+                _stateList.postValue(UIState.Error(e))
             }
         }
     }

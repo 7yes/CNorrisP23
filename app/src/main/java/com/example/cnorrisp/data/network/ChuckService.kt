@@ -24,4 +24,17 @@ class ChuckService @Inject constructor(private val api: ChuckApi) {
             joke ?: "Service Error"
         }
     }
+
+    suspend fun getList(query: String): List<String> {
+        return withContext((Dispatchers.IO)) {
+            val jokes = mutableListOf<String>()
+            val response = api.getList(query)
+            val body = response.body()
+            body?.result?.forEach {
+                jokes.add(it.joke)
+            }
+            Log.d("TAG", "getList: agregue $jokes ")
+            jokes
+        }
+    }
 }

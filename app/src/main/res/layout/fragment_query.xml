@@ -16,6 +16,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_query"
         style="@style/mStyle"
