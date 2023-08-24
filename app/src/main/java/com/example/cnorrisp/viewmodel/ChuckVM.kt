@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.example.cnorrisp.domain.GetCustomUseCase
 import com.example.cnorrisp.domain.GetQueryUseCase
 import com.example.cnorrisp.domain.GetRandomUseCase
+import com.example.cnorrisp.ui.model.JokeItem
 import com.example.cnorrisp.ui.states.UIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -22,8 +23,8 @@ class ChuckVM @Inject constructor(
 ) : ViewModel() {
 
     // Random
-    private var _lastRandom = MutableLiveData<String>()
-    val lastRandom: LiveData<String> = _lastRandom
+    private var _lastRandom = MutableLiveData<JokeItem>()
+    val lastRandom: LiveData<JokeItem> = _lastRandom
 
     private var _stateRandom = MutableLiveData<UIState>()
     val stateRandom: LiveData<UIState> = _stateRandom
@@ -48,12 +49,9 @@ class ChuckVM @Inject constructor(
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val joke = getRandomUseCase.getRandom()
-                if (joke.isNotEmpty()) {
                     _stateRandom.postValue(UIState.Success)
                     _lastRandom.postValue(joke)
-                } else {
-                    Log.d("TAG", "getSimpleRandom: call successful but no data ")
-                }
+
             } catch (e: Exception) {
                 _stateRandom.postValue(UIState.Error(e))
             }

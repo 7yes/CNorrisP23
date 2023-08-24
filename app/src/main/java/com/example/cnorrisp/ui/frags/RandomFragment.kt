@@ -27,7 +27,7 @@ class RandomFragment : Fragment() {
         _binding = FragmentRandomBinding.inflate(layoutInflater, container, false)
 
         viewmodel.lastRandom.observeForever {
-            binding.tvRandomJoke.text = it
+            binding.tvRandomJoke.text = it.joke
         }
 
         binding.root.setOnClickListener {

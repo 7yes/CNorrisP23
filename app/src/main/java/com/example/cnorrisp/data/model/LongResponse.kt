@@ -1,6 +1,6 @@
 package com.example.cnorrisp.data.model
 
 data class LongResponse(
-    val result: List<ChuckSimpleResponse>,
+    val result: List<JokeModelSimpleResponse>,
     val total: Int
 )

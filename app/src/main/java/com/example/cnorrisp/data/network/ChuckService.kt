@@ -1,18 +1,19 @@
 package com.example.cnorrisp.data.network
 
 import android.util.Log
+import com.example.cnorrisp.core.isNull
+import com.example.cnorrisp.ui.model.JokeItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ChuckService @Inject constructor(private val api: ChuckApi) {
 
-    suspend fun getRandom(): String {
+    suspend fun getRandom(): JokeItem {
         return withContext(Dispatchers.IO) {
             val response = api.getRandom()
             val body = response.body()
-            val joke = body?.joke ?: ""
-            joke
+            JokeItem(body?.id ?: "aaa",body?.joke ?: "no hubo")
         }
     }
 
